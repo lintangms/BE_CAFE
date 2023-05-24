@@ -5,15 +5,15 @@ const app = express()
 app.use(express.json())
 
 const mejaController = require('../controller/meja.controller')
-const { authorizeAdmin } = require(`../controller/auth.controller`)
+const  auth = require(`../controller/auth.controller`)
 
-app.get("/", [authorizeAdmin], mejaController.getAllMeja)
+app.get("/",auth.authVerify,  mejaController.getAllMeja)
 
-app.post("/", [authorizeAdmin], mejaController.addMeja)
+app.post("/",auth.authVerify, mejaController.addMeja)
 
-// app.post("/find", mejaController.findMeja)
+app.post("/find",auth.authVerify, mejaController.findMeja)
 
-app.put("/:id", [authorizeAdmin], mejaController.updateMeja)
+app.put("/:id",auth.authVerify, mejaController.updateMeja)
 
-app.delete("/:id", [authorizeAdmin], mejaController.deleteMeja)
+app.delete("/:id",auth.authVerify, mejaController.deleteMeja)
 module.exports = app

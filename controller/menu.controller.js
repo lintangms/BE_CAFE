@@ -14,21 +14,24 @@ exports.getAllMenu = async (request, response) => {
 };
 
 exports.findMenu = async (request, response) => {
-  let nama_menu = request.body.nama_menu;
-  let jenis = request.body.jenis;
-  let harga = request.body.harga;
-  let menus = await modelMenu.findAll({
+  // let nama_menu = request.body.nama_menu;
+  // let jenis = request.body.jenis;
+  // let harga = request.body.harga;
+  // let id_menu = request.body.id_menu;
+  let keyword = request.body.keyword;
+  let menu = await modelMenu.findAll({
     where: {
-      [Op.and]: [
-        { nama_menu: { [Op.substring]: nama_menu } },
-        { jenis: { [Op.substring]: jenis } },
-        { harga: { [Op.substring]: harga } },
+      [Op.or]: [
+        { nama_menu: { [Op.substring]: keyword } },
+        { jenis: { [Op.substring]: keyword } },
+        { harga: { [Op.substring]: keyword } },
+        { id_menu: {[Op.substring]: keyword}}
       ],
     },
   });
   return response.json({
     success: true,
-    data: menus,
+    data: menu,
     message: `berikut data yang anda minta yang mulia`,
   });
 };
@@ -74,19 +77,20 @@ exports.updateMenu = async (request, response) => {
     if (err) {
       return response.json({ message: err });
     }
-    let id = request.params.id;
+    let id_menu = request.params.id;
     let dataMenu = {
       nama_menu: request.body.nama_menu,
       gambar: request.file.filename,
       jenis: request.body.jenis,
       deskripsi: request.body.deskripsi,
       harga: request.body.harga
+      
     };
     console.log(dataMenu);
 
     if (request.file) {
       const selectedMenu = await modelMenu.findOne({
-        where: { id_menu: id },
+        where: { id_menu: id_menu },
       });
       const oldgambarMenu = selectedMenu.gambar;
 
@@ -97,7 +101,7 @@ exports.updateMenu = async (request, response) => {
       dataMenu.gambar = request.file.filename;
     }
     modelMenu
-      .update(dataMenu, { where: { id_menu: id } })
+      .update(dataMenu, { where: { id_menu: id_menu } })
       .then((result) => {
         return response.json({
           success: true,

@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     
     }
   }
-  transaksi.init({
+  transaksi.init({  
     id_transaksi:{
       type: DataTypes.INTEGER,
       primaryKey: true,

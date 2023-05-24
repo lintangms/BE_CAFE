@@ -1,4 +1,5 @@
 const modelMeja = require(`../models/index`).meja
+const Op = require("sequelize").Op;
 
 // const Op = require(`sequelize`).Op
 
@@ -13,12 +14,13 @@ exports.getAllMeja = async (request, response) => {
 
 exports.findMeja = async (request, response) => {
 
-    let keyword = request.body.keyword
+    let keyword = request.body.keyword;
 
     let meja = await modelMeja.findAll({
         where: {
             [Op.or]: [
-                { meja: { [Op.substring]: keyword } }
+                { meja: { [Op.substring]: keyword } },
+                { status_meja: {[Op.substring]: keyword}}
             ]
         }
     })

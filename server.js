@@ -19,13 +19,17 @@ app.use(`/meja`, mejaRoute);
 const transaksiRoute = require(`./routes/transaksi.route`);
 app.use(`/transaksi`, transaksiRoute);
 
-
-const auth = require(`./routes/auth.route`)
-app.use(`/auth`, auth)
-
+// const detailRoute = require(`./routes/detail.route`);
+// app.use(`/detail`, detailRoute);
 
 
-// app.use(express.static(__dirname));
+
+// const auth = require(`./routes/auth.route`)
+// app.use(`/auth`, auth)
+
+
+
+app.use(express.static(__dirname));
 // app.use(express.static("foto-kamar"));
 // app.use(express.static("foto-user"));
 
